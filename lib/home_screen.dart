@@ -10,14 +10,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final PlatformService platformService = PlatformService();
+
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           FutureBuilder<String?>(
             future: platformService.getPlatformVersion(),
             builder: (context, snapshot) {
@@ -27,6 +27,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 return const Text("Error fetching platform version");
               } else {
                 return Text("Platform Version: ${snapshot.data}");
+              }
+            },
+          ),
+
+          FutureBuilder<String?>(
+            future: platformService.getBatteryLevel(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return const Text("Error fetching Battery");
+              } else {
+                return Text("Battery Level: ${snapshot.data}");
               }
             },
           ),

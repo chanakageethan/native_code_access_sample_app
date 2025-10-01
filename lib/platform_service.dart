@@ -12,4 +12,20 @@ class PlatformService {
       return null;
     }
   }
+
+  Future<String?> getBatteryLevel() async {
+    try {
+
+      final double? level = await _channel.invokeMethod('getBatteryLevel');
+
+      return level.toString();
+    } on PlatformException catch (e) {
+    print("================================$e");
+      return null;
+    }
+  }
+
+
+
+
 }
